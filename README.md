@@ -31,9 +31,31 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 - 한번에 한 레코드만 처리
 - DSL 과 저수준의 API 제공
 
-### 카프카 스트림 아키텍처
+#### Stream Processing Topology
+[Topology 참고](https://kafka.apache.org/24/documentation/streams/core-concepts#streams_topology)
 
+- streams : 끊임없이 전달되는 데이터 세트
+- stream processing application : 하나 이상의 토폴로지에서 처리되는 로직(연결된 그래프)
+- stream processor : 하나의 노드. 입력 스트림으로 데이터를 받아 변환한 다음 다시 연결된 프로세서로 보내는 역할
+
+- **Source Processor** : 위쪽으로 연결된 프로세서가 없는 프로세서 (토픽에서 레코드를 조회)
+- **Sink Processor** : 아래쪽에 프로세서가 없는 프로세서  (특정 토픽에 저장)
+
+### 카프카 스트림 아키텍처
+[Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
+
+#### 스트림과 토픽의 관계
 - 각 스트림 파티션은 토픽 파티션에 저장된 정렬된 메시지
 - 스트림의 데이터 레코드는 카프카 해당 토픽의 메시지 (키 + 값)
 - 데이터 레코드의 키를 통해 다음 스트림으로 전달
+
+#### 태스크
+- 입력 스트림의 **파티션 개수만큼** Task 를 생성
+- 각 `Task` 에 `토픽의 파티션`들이 할당(한번 정해지면 파티션의 변화가 생기지 않는 한 변하지 않음)
+
+#### 쓰레들 모델
+- 사용자가 스레드의 개수를 지정할 수 있음
+- 1개의 쓰레드는 1개 이상의 Task 를 처리할 수 있음
+
+> 더 많은 쓰레드를 띄우거나 인스턴스를 생성하여 효과적으로 병렬처리를 할 수 있음
 
