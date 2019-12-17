@@ -31,6 +31,16 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 - 한번에 한 레코드만 처리
 - DSL 과 저수준의 API 제공
 
+#### Stream Processing Topology
+[Topology 참고](https://kafka.apache.org/24/documentation/streams/core-concepts#streams_topology)
+
+- streams : 끊임없이 전달되는 데이터 세트
+- stream processing application : 하나 이상의 토폴로지에서 처리되는 로직(연결된 그래프)
+- stream processor : 하나의 노드. 입력 스트림으로 데이터를 받아 변환한 다음 다시 연결된 프로세서로 보내는 역할
+
+- **Source Processor** : 위쪽으로 연결된 프로세서가 없는 프로세서 (토픽에서 레코드를 조회)
+- **Sink Processor** : 아래쪽에 프로세서가 없는 프로세서  (특정 토픽에 저장)
+
 ### 카프카 스트림 아키텍처
 
 - 각 스트림 파티션은 토픽 파티션에 저장된 정렬된 메시지
@@ -39,4 +49,14 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 
 
 
-![streams-architecture-topology](https://kafka.apache.org/24/images/streams-architecture-topology.jpg | width=100)
+
+
+
+
+    
+
+
+
+### 아키텍처
+[Architecture](https://kafka.apache.org/24/documentation/streams/architecture)
+
