@@ -59,3 +59,7 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 
 > 더 많은 쓰레드를 띄우거나 인스턴스를 생성하여 효과적으로 병렬처리를 할 수 있음
 
+### 예제 
+
+#### 구조
+[Example Kafka Streams 구조](/documents/images/example-logic.png)
