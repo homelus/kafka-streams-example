@@ -62,4 +62,4 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 ### 예제 
 
 #### 구조
-[Example Kafka Streams 구조](/documents/images/example-logic.png)
+![Example Kafka Streams 구조](/documents/images/example-logic.png)
