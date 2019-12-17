@@ -38,4 +38,5 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 - 데이터 레코드의 키를 통해 다음 스트림으로 전달
 
 
-[streams-architecture-topology](https://kafka.apache.org/24/images/streams-architecture-topology.jpg)
+
+![streams-architecture-topology](https://kafka.apache.org/24/images/streams-architecture-topology.jpg)
