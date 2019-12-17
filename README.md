@@ -37,3 +37,5 @@ Kafka 2.3.0 버전 설치 및 환경 세팅
 - 스트림의 데이터 레코드는 카프카 해당 토픽의 메시지 (키 + 값)
 - 데이터 레코드의 키를 통해 다음 스트림으로 전달
 
+
+[streams-architecture-topology](https://kafka.apache.org/24/images/streams-architecture-topology.jpg)
