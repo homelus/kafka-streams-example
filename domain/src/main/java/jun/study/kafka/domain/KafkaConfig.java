@@ -13,31 +13,40 @@ public class KafkaConfig {
 
     private KafkaConfig() {}
 
-    public final static String TOPIC = "jun-topic";
-    public final static String CHANGED_TOPIC = "jun-change-topic";
+    public final static String STRING_TOPIC = "string-topic";
+    public final static String STRING_CHANGED_TOPIC = "string-change-topic";
+
+    public final static String ANIMAL_TOPIC = "animal-topic";
+    public final static String ANIMAL_AGGS_TOPIC = "animal-aggs-topic";
+
     public final static String BOOTSTRAP_SERVERS = "localhost:9092";
     public final static String STRING_SERIALIZER =
             "org.apache.kafka.common.serialization.StringSerializer";
     public final static String STRING_DESERIALIZER =
             "org.apache.kafka.common.serialization.StringDeserializer";
+    public final static String LONG_DESERIALIZER =
+            "org.apache.kafka.common.serialization.LongDeserializer";
 
-    public static Properties createStreamsProperties() {
+    public final static int PARTITION_SIZE = 1;
+    public final static short REPLICATION_FACTOR = 1;
+
+    public static Properties createStreamsProperties(String id) {
         Properties props = new Properties();
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        props.put(StreamsConfig.APPLICATION_ID_CONFIG, "jun-application");
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, id);
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
         props.put("auto.offset.reset", "latest");
         return props;
     }
 
-    public static Properties createConsumerProperties() {
+    public static Properties createConsumerProperties(String valueDeserializer) {
         Properties props = new Properties();
 
         props.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
 
         props.put("key.deserializer", STRING_DESERIALIZER);
-        props.put("value.deserializer", STRING_DESERIALIZER);
+        props.put("value.deserializer", valueDeserializer);
 
         props.put("group.id", "jun-consumer");
         props.put("enable.auto.commit", "true");

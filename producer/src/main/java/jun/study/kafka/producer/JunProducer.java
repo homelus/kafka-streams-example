@@ -1,21 +1,16 @@
 package jun.study.kafka.producer;
 
 import jun.study.kafka.domain.KafkaConfig;
-import org.apache.kafka.clients.admin.*;
+import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.IntStream;
+import static jun.study.kafka.domain.Controller.runAnimal;
+import static jun.study.kafka.domain.Controller.runString;
 
 @SpringBootApplication
 public class JunProducer {
@@ -25,24 +20,24 @@ public class JunProducer {
     }
 
     @Bean
-    public CommandLineRunner runner(Producer<String, String> producer, TopicInitializer initializer) throws ExecutionException, InterruptedException {
+    public CommandLineRunner runner(AnimalGenerator animalGenerator,
+                                    StringGenerator stringGenerator,
+                                    TopicInitializer initializer) {
         initializer.init();
-        return args -> IntStream.range(0, 500)
-                .forEach(i -> {
-                    try {
-                        TimeUnit.SECONDS.sleep(2);
-                        String message = "kafka-test-" + i;
-                        final Future<RecordMetadata> response =
-                                producer.send(new ProducerRecord<>(KafkaConfig.TOPIC,
-                                        String.valueOf(i),
-                                        message));
-                        final RecordMetadata recordMetadata = response.get();
-                        System.out.println("message: " + message + " topic(): " + recordMetadata.topic() + " " +
-                                "partition():" +
-                                " " + recordMetadata.partition() + " " +
-                                "offset(): " + recordMetadata.offset());
-                    } catch (InterruptedException | ExecutionException ignored) {}
-                });
+        return args -> {
+            runAnimal(null, arg -> animalGenerator.generate());
+            runString(null, arg -> stringGenerator.generate());
+        };
+    }
+
+    @Bean
+    public AnimalGenerator animalGenerator() {
+        return new AnimalGenerator(producer());
+    }
+
+    @Bean
+    public StringGenerator stringGenerator() {
+        return new StringGenerator(producer());
     }
 
     @Bean

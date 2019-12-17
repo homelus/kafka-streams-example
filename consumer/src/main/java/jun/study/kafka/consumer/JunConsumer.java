@@ -1,10 +1,10 @@
 package jun.study.kafka.consumer;
 
+import jun.study.kafka.domain.Controller;
 import jun.study.kafka.domain.KafkaConfig;
 import org.apache.kafka.clients.consumer.Consumer;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Collections;
 
 @SpringBootApplication
 public class JunConsumer {
@@ -21,23 +22,35 @@ public class JunConsumer {
     }
 
     @Bean
-    public CommandLineRunner runner(Consumer<String, String> consumer) {
-        consumer.subscribe(Arrays.asList(KafkaConfig.CHANGED_TOPIC));
+    public CommandLineRunner runner(@Qualifier("stringConsumer") Consumer<String, String> strConsumer,
+                                    @Qualifier("longConsumer") Consumer<String, Long> longConsumer,
+                                    Printer printer) {
+
+        strConsumer.subscribe(Collections.singletonList(KafkaConfig.STRING_CHANGED_TOPIC));
+        longConsumer.subscribe(Collections.singletonList(KafkaConfig.ANIMAL_AGGS_TOPIC));
         return args -> {
-            while (true) {
-                final ConsumerRecords<String, String> records =
-                        consumer.poll(Duration.ofSeconds(2));
-                final Iterable<ConsumerRecord<String, String>> results = records.records(KafkaConfig.CHANGED_TOPIC);
-                for (ConsumerRecord<String, String> result : results) {
-                    System.out.println(result.key() + " : " + result.value());
-                }
-            }
+            Controller.runString(strConsumer, printer::printString);
+            Controller.runAnimal(longConsumer, printer::printAnimals);
         };
     }
 
     @Bean
-    public Consumer<String, String> createConsumer() {
-        return new KafkaConsumer<>(KafkaConfig.createConsumerProperties());
+    public Printer printer() {
+        return new Printer();
     }
+
+    @Bean
+    @Qualifier("stringConsumer")
+    public Consumer<String, String> createStringConsumer() {
+        return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.STRING_DESERIALIZER));
+    }
+
+    @Bean
+    @Qualifier("longConsumer")
+    public Consumer<String, Long> createLongConsumer() {
+        return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.LONG_DESERIALIZER));
+    }
+
+
 
 }
