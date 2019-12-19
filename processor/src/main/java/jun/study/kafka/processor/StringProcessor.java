@@ -1,26 +1,24 @@
 package jun.study.kafka.processor;
 
-import jun.study.kafka.domain.KafkaConfig;
-import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.StreamsBuilder;
+import jun.study.kafka.config.RunningConfig;
+import jun.study.kafka.processor.support.BaseProcessor;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.ValueMapper;
+import org.springframework.stereotype.Service;
 
+@Service
 public class StringProcessor extends BaseProcessor {
 
-    public void process() {
-        StreamsBuilder builder = new StreamsBuilder();
-        final KStream<String, String> stream = builder.stream(KafkaConfig.STRING_TOPIC);
-        stream.peek(this::log)
-                .mapValues((ValueMapper<String, String>) String::toUpperCase)
+    @Override
+    protected void streamProcess(KStream<String, String> stream) {
+        stream.mapValues((ValueMapper<String, String>) String::toUpperCase)
                 .mapValues(s -> s.replaceAll("TEST", "REAL"))
-                .to(KafkaConfig.STRING_CHANGED_TOPIC);
-        final KafkaStreams kafkaStreams = new KafkaStreams(build(builder),
-                KafkaConfig.createStreamsProperties("string-application"));
+                .to(RunningConfig.STRING.desTopic());
+    }
 
-        kafkaStreams.start();
-        Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
-
+    @Override
+    public RunningConfig runningConfig() {
+        return RunningConfig.STRING;
     }
 
 }

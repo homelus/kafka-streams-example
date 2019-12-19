@@ -1,4 +1,4 @@
-package jun.study.kafka.domain;
+package jun.study.kafka;
 
 @FunctionalInterface
 public interface VoidConsumer {

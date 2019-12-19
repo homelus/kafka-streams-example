@@ -1,6 +1,6 @@
 package jun.study.kafka.producer.generator;
 
-import jun.study.kafka.domain.RunningConfig;
+import jun.study.kafka.config.RunningConfig;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.kafka.clients.producer.Producer;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,12 @@ public class WordGenerator extends Generator {
     }
 
     @Override
-    public RunningConfig runningType() {
+    protected String topic() {
+        return RunningConfig.WORD.srcTopic();
+    }
+
+    @Override
+    public RunningConfig runningConfig() {
         return RunningConfig.WORD;
     }
 

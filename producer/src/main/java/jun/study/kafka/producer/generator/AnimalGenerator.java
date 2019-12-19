@@ -1,6 +1,6 @@
 package jun.study.kafka.producer.generator;
 
-import jun.study.kafka.domain.RunningConfig;
+import jun.study.kafka.config.RunningConfig;
 import org.apache.kafka.clients.producer.Producer;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import static java.util.Arrays.asList;
+import static jun.study.kafka.config.RunningConfig.ANIMAL;
 
 @Component
 public class AnimalGenerator extends Generator {
@@ -27,8 +28,13 @@ public class AnimalGenerator extends Generator {
     }
 
     @Override
-    public RunningConfig runningType() {
-        return RunningConfig.ANIMAL;
+    protected String topic() {
+        return ANIMAL.srcTopic();
+    }
+
+    @Override
+    public RunningConfig runningConfig() {
+        return ANIMAL;
     }
 
 }

@@ -1,8 +1,7 @@
 package jun.study.kafka.producer.generator;
 
-import jun.study.kafka.domain.Controller;
-import jun.study.kafka.domain.KafkaConfig;
-import jun.study.kafka.domain.RunningConfig;
+import jun.study.kafka.config.Controller;
+import jun.study.kafka.config.RunningConfigInitializer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -12,7 +11,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
-public abstract class Generator {
+public abstract class Generator implements RunningConfigInitializer {
 
     private final Producer<String, String> producer;
 
@@ -28,12 +27,10 @@ public abstract class Generator {
             IntStream.range(0, 500)
                     .forEach(i -> {
                         try {
-                            TimeUnit.MILLISECONDS.sleep(Controller.SPEED_MILLIES);
+                            TimeUnit.MILLISECONDS.sleep(Controller.SPEED_MILLIE_SECOND);
                             String message = getMessage();
                             final Future<RecordMetadata> response =
-                                    producer.send(new ProducerRecord<>(KafkaConfig.ANIMAL_TOPIC,
-                                            String.valueOf(i),
-                                            message));
+                                    producer.send(new ProducerRecord<>(topic(), String.valueOf(i), message));
                             final RecordMetadata recordMetadata = response.get();
                             System.out.println("message: " + message + " topic(): " + recordMetadata.topic() + " " +
                                     "partition():" +
@@ -45,6 +42,6 @@ public abstract class Generator {
 
     protected abstract String getMessage();
 
-    public abstract RunningConfig runningType();
+    protected abstract String topic();
 
 }

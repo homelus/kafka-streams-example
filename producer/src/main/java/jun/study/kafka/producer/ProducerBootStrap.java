@@ -1,6 +1,6 @@
 package jun.study.kafka.producer;
 
-import jun.study.kafka.domain.KafkaConfig;
+import jun.study.kafka.config.KafkaConfig;
 import jun.study.kafka.producer.generator.Generator;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.List;
 
-import static jun.study.kafka.domain.Controller.run;
+import static jun.study.kafka.config.Controller.run;
 
 @SpringBootApplication
-public class JunProducer {
+public class ProducerBootStrap {
 
     public static void main(String[] args) {
-        SpringApplication.run(JunProducer.class, args);
+        SpringApplication.run(ProducerBootStrap.class, args);
     }
 
     @Bean
@@ -27,7 +27,7 @@ public class JunProducer {
         initializer.init();
         return args -> {
             for (Generator generator : generators) {
-                run(generator.runningType(), generator::generate);
+                run(generator.runningConfig(), generator::generate);
             }
         };
     }
