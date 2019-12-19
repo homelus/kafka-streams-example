@@ -12,10 +12,10 @@ import org.apache.kafka.streams.kstream.ValueMapper;
 public class AnimalProcessor extends BaseProcessor {
 
     public void process() {
-
         StreamsBuilder builder = new StreamsBuilder();
         final KStream<String, String> streams = builder.stream(KafkaConfig.ANIMAL_TOPIC);
                 streams.peek(this::log)
+                .selectKey((key, value) -> value)
                 .mapValues((ValueMapper<String, String>) String::toLowerCase)
                         .filter(this::isNotPig)
                         .groupBy((key, word) -> word)
@@ -23,8 +23,14 @@ public class AnimalProcessor extends BaseProcessor {
                 .toStream().to(KafkaConfig.ANIMAL_AGGS_TOPIC,
                         Produced.with(Serdes.String(), Serdes.Long()));
 
-        new KafkaStreams(build(builder),
-                KafkaConfig.createStreamsProperties("animal-application")).start();
+
+        final KafkaStreams kafkaStreams = new KafkaStreams(build(builder),
+                KafkaConfig.createStreamsProperties("animal-application"));
+
+        kafkaStreams.cleanUp();
+        kafkaStreams.start();
+
+        Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
     }
 
     private boolean isNotPig(String key, String animal) {

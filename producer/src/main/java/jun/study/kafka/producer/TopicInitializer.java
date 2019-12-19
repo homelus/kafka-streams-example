@@ -8,8 +8,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.Arrays.asList;
-import static jun.study.kafka.domain.Controller.runAnimal;
-import static jun.study.kafka.domain.Controller.runString;
+import static jun.study.kafka.domain.Controller.*;
+import static jun.study.kafka.domain.RunningConfig.ANIMAL;
+import static jun.study.kafka.domain.RunningConfig.STRING;
 
 public class TopicInitializer {
 
@@ -20,8 +21,10 @@ public class TopicInitializer {
     }
 
     public void init() {
-        runString(asList(KafkaConfig.STRING_TOPIC, KafkaConfig.STRING_CHANGED_TOPIC), this::initInternal);
-        runAnimal(asList(KafkaConfig.ANIMAL_TOPIC, KafkaConfig.ANIMAL_AGGS_TOPIC), this::initInternal);
+        run(STRING, asList(KafkaConfig.STRING_TOPIC, KafkaConfig.STRING_CHANGED_TOPIC),
+                this::initInternal);
+        run(ANIMAL, asList(KafkaConfig.ANIMAL_TOPIC, KafkaConfig.ANIMAL_AGGS_TOPIC),
+                this::initInternal);
     }
 
     private void initInternal(List<String> tps) {

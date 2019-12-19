@@ -15,8 +15,11 @@ public class StringProcessor extends BaseProcessor {
                 .mapValues((ValueMapper<String, String>) String::toUpperCase)
                 .mapValues(s -> s.replaceAll("TEST", "REAL"))
                 .to(KafkaConfig.STRING_CHANGED_TOPIC);
-        new KafkaStreams(build(builder),
-                KafkaConfig.createStreamsProperties("string-application")).start();
+        final KafkaStreams kafkaStreams = new KafkaStreams(build(builder),
+                KafkaConfig.createStreamsProperties("string-application"));
+
+        kafkaStreams.start();
+        Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));
 
     }
 

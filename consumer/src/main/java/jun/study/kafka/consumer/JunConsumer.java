@@ -10,8 +10,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.time.Duration;
-import java.util.Arrays;
 import java.util.Collections;
 
 @SpringBootApplication
@@ -39,13 +37,13 @@ public class JunConsumer {
         return new Printer();
     }
 
-    @Bean
+    @Bean(destroyMethod = "close")
     @Qualifier("stringConsumer")
     public Consumer<String, String> createStringConsumer() {
         return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.STRING_DESERIALIZER));
     }
 
-    @Bean
+    @Bean(destroyMethod = "close")
     @Qualifier("longConsumer")
     public Consumer<String, Long> createLongConsumer() {
         return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.LONG_DESERIALIZER));

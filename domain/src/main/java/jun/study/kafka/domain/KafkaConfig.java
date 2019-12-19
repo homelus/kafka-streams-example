@@ -13,11 +13,14 @@ public class KafkaConfig {
 
     private KafkaConfig() {}
 
+    public final static String WORD_TOPIC = "word-topic";
+    public final static String WORD_AGG_TOPIC = "word-agg-topic";
+
     public final static String STRING_TOPIC = "string-topic";
     public final static String STRING_CHANGED_TOPIC = "string-change-topic";
 
     public final static String ANIMAL_TOPIC = "animal-topic";
-    public final static String ANIMAL_AGGS_TOPIC = "animal-aggs-topic";
+    public final static String ANIMAL_AGGS_TOPIC = "animal-agg-topic";
 
     public final static String BOOTSTRAP_SERVERS = "localhost:9092";
     public final static String STRING_SERIALIZER =
@@ -27,7 +30,7 @@ public class KafkaConfig {
     public final static String LONG_DESERIALIZER =
             "org.apache.kafka.common.serialization.LongDeserializer";
 
-    public final static int PARTITION_SIZE = 1;
+    public final static int PARTITION_SIZE = 2;
     public final static short REPLICATION_FACTOR = 1;
 
     public static Properties createStreamsProperties(String id) {

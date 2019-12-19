@@ -65,5 +65,8 @@
 
 ### 예제 
 
-#### 구조
+1. String 처리
+2. 빈도 수 처리
+3. 단어 집계 
+
 ![Example Kafka Streams 구조](/documents/images/example-logic.png)
