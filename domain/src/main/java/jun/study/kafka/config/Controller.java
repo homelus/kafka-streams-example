@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 
 public class Controller {
 
-    public final static int SPEED_MILLIE_SECOND = 1_000;
-    public final static int PROCESSOR_NUM = 2;
+    public final static int SPEED_MILLIE_SECOND = 200;
+    public final static int PROCESSOR_NUM = 1;
 
     public static void run(RunningConfig t, VoidConsumer consumer) {
         if (t.isRun()) {

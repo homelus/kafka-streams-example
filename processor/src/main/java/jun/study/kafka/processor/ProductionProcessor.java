@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jun.study.kafka.config.RunningConfig;
 import jun.study.kafka.model.Production;
-import jun.study.kafka.processor.support.BaseProcessor;
+import jun.study.kafka.processor.support.SingleProcessor;
 import jun.study.kafka.repository.ProductionRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.streams.kstream.KStream;
@@ -17,7 +17,7 @@ import static jun.study.kafka.config.RunningConfig.PRODUCTION;
 
 @Service
 @RequiredArgsConstructor
-public class ProductionProcessor extends BaseProcessor {
+public class ProductionProcessor extends SingleProcessor {
 
     private final ProductionRepository repository;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -36,6 +36,10 @@ public class ProductionProcessor extends BaseProcessor {
     }
 
     public String convert(Production production) {
+        if (production.getProductionNo() == 20L) {
+            throw new IllegalStateException("20 invalid");
+        }
+
         try {
             return objectMapper.writeValueAsString(production);
         } catch (JsonProcessingException e) {

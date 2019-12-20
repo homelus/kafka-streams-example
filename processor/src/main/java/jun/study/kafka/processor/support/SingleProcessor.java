@@ -7,7 +7,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.Topology;
 import org.apache.kafka.streams.kstream.KStream;
 
-public abstract class BaseProcessor implements Processor {
+public abstract class SingleProcessor implements Processor {
 
     @Override
     public void process() {
@@ -20,6 +20,8 @@ public abstract class BaseProcessor implements Processor {
             final KafkaStreams kafkaStreams = new KafkaStreams(topology,
                     KafkaConfig.createStreamsProperties(srcTopic + "-application"));
 
+            kafkaStreams.setUncaughtExceptionHandler(
+                    (t, e) -> System.out.println("Exception: " + t.getName() + " - " + e.getMessage()));
             kafkaStreams.cleanUp();
             kafkaStreams.start();
             Runtime.getRuntime().addShutdownHook(new Thread(kafkaStreams::close));

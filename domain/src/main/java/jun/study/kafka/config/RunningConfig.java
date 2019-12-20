@@ -5,10 +5,12 @@ public enum RunningConfig {
     ANIMAL(false, "animal", "animal-agg"),
     STRING(false, "string", "string-changed"),
     WORD(false, "word", "word-agg"),
-    PRODUCTION(true, "production", "production-changed"),
+    PRODUCTION(false, "production", "production-changed"),
+    MERGE(true, "merge", "merge-changed"),
+
     ;
 
-    private boolean run;
+    public boolean run;
 
     private String srcTopic;
 
@@ -31,4 +33,5 @@ public enum RunningConfig {
     public String desTopic() {
         return desTopic;
     }
+
 }

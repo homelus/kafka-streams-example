@@ -3,6 +3,7 @@ package jun.study.kafka.producer;
 import jun.study.kafka.config.KafkaConfig;
 import jun.study.kafka.config.RunningConfig;
 import org.apache.kafka.clients.admin.*;
+import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,14 @@ public class TopicInitializer {
 
     public void init() {
         for (RunningConfig config : values()) {
-            run(config, asList(config.srcTopic(), config.desTopic()), this::initInternal);
+            if (config == MERGE) {
+                run(config, asList(config.srcTopic() + "1", config.desTopic() + "1"),
+                        this::initInternal);
+                run(config, asList(config.srcTopic() + "2", config.desTopic() + "2"),
+                        this::initInternal);
+            } else {
+                run(config, asList(config.srcTopic(), config.desTopic()), this::initInternal);
+            }
         }
     }
 
@@ -37,9 +45,9 @@ public class TopicInitializer {
                 if (topics.contains(tp)) {
                     final DeleteTopicsResult deleteTopicsResult =
                             adminClient.deleteTopics(Collections.singleton(tp));
-                    deleteTopicsResult.all().get();
+                    deleteTopicsResult.all().get(1, TimeUnit.SECONDS);
                     System.out.println(tp + " is Deleted");
-                    TimeUnit.SECONDS.sleep(1);
+                    TimeUnit.MILLISECONDS.sleep(500);
                 }
 
 

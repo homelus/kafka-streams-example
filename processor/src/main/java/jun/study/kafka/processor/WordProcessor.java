@@ -1,7 +1,7 @@
 package jun.study.kafka.processor;
 
 import jun.study.kafka.config.RunningConfig;
-import jun.study.kafka.processor.support.BaseProcessor;
+import jun.study.kafka.processor.support.SingleProcessor;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Materialized;
@@ -15,7 +15,7 @@ import static jun.study.kafka.config.RunningConfig.ANIMAL;
 import static jun.study.kafka.config.RunningConfig.WORD;
 
 @Service
-public class WordProcessor extends BaseProcessor {
+public class WordProcessor extends SingleProcessor {
 
     @Override
     public RunningConfig runningConfig() {

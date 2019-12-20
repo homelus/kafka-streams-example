@@ -23,11 +23,6 @@ public class ProductionGenerator extends Generator{
     }
 
     @Override
-    protected String topic() {
-        return PRODUCTION.srcTopic();
-    }
-
-    @Override
     public RunningConfig runningConfig() {
         return PRODUCTION;
     }

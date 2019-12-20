@@ -21,11 +21,6 @@ public class StringGenerator extends Generator{
     }
 
     @Override
-    protected String topic() {
-        return RunningConfig.STRING.srcTopic();
-    }
-
-    @Override
     public RunningConfig runningConfig() {
         return RunningConfig.STRING;
     }

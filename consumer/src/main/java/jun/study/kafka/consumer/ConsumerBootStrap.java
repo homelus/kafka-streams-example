@@ -24,13 +24,14 @@ public class ConsumerBootStrap {
     public CommandLineRunner runner(@Qualifier("stringConsumer") Consumer<String, String> strConsumer,
                                     @Qualifier("animalConsumer") Consumer<String, Long> animalConsumer,
                                     @Qualifier("wordConsumer") Consumer<String, Long> wordConsumer,
-                                    @Qualifier("productionConsumer") Consumer<String, Long> productionConsumer,
+                                    @Qualifier("productionConsumer") Consumer<String, String> productionConsumer,
                                     Printer printer) {
         return args -> {
             Controller.run(STRING, strConsumer, RunningConfig.STRING.desTopic(), printer::printString);
             Controller.run(ANIMAL, animalConsumer, ANIMAL.desTopic(), printer::printAgg);
             Controller.run(WORD, wordConsumer, WORD.desTopic(), printer::printAgg);
             Controller.run(PRODUCTION, productionConsumer, PRODUCTION.desTopic(), printer::printString);
+            Controller.run(MERGE, productionConsumer, MERGE.desTopic(), printer::printString);
         };
     }
 
@@ -60,6 +61,12 @@ public class ConsumerBootStrap {
     @Bean(destroyMethod = "close")
     @Qualifier("productionConsumer")
     public Consumer<String, String> productionConsumer() {
+        return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.STRING_DESERIALIZER));
+    }
+
+    @Bean(destroyMethod = "close")
+    @Qualifier("mergeConsumer")
+    public Consumer<String, String> mergeConsumer() {
         return new KafkaConsumer<>(KafkaConfig.createConsumerProperties(KafkaConfig.STRING_DESERIALIZER));
     }
 

@@ -28,11 +28,6 @@ public class AnimalGenerator extends Generator {
     }
 
     @Override
-    protected String topic() {
-        return ANIMAL.srcTopic();
-    }
-
-    @Override
     public RunningConfig runningConfig() {
         return ANIMAL;
     }

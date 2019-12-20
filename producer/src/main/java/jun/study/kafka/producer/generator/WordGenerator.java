@@ -18,11 +18,6 @@ public class WordGenerator extends Generator {
     }
 
     @Override
-    protected String topic() {
-        return RunningConfig.WORD.srcTopic();
-    }
-
-    @Override
     public RunningConfig runningConfig() {
         return RunningConfig.WORD;
     }
