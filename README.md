@@ -68,5 +68,6 @@
 1. String 처리
 2. 빈도 수 처리
 3. 단어 집계 
+4. 상품 처리
 
 ![Example Kafka Streams 구조](/documents/images/example-logic.png)
