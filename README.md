@@ -105,9 +105,25 @@
 
 ## :hotel: Architecture
 [Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
+Kafka Streams 는 Kafka producer 와 consumer 라이브러리들 위에서 만들어 지고 병렬 처리, 분산 처리, 내결함성, 단순한 운영을 제공하여
+운영 애플리케이션 개발을 단순화 합니다.
+
+### Stream Partitions and Tasks
+카프카의 메시징 계층은 메시지의 저장과 운반하고 처리하기 위해 데이터를 분산합니다.
+카프카 토픽의 분산(partition)을 기반으로한 병렬 처리 모델의 논리적인 단위로 **partition**  과 **tasks** 의 개념을 사용합니다.
+
+- Kafka Streams 는 입력 스트림의 partitions 에 기반하여 고정된 수의 tasks 를 만들고, 각 task 는 입력스트림으로부터 partition 목록을 할당 받습니다. (partition 에서 tasks 로의 할당은 변하지 않습니다)
+- Tasks 는 할당된 partitions 를 기반으로 processor topology 를 인스턴스로 생성합니다.(결과적으로 스트림은 독립적으로 동시에 처리할 수 있습니다.)
+    - 최대의 병렬처리는 partition 크기에 따라 결정됩니다. (예를들어 5개의 파티션이 있다면 최대 5개의 인스턴스로 처리 가능)
+
+> Kafka Streams 는 `Resource manager` 가 아니고 모든 곳에서 스트림 처리를 **실행**하는 라이브러리임을 이해해야 합니다.
+
+하나의 인스턴스에서 실패가 발생한다면 모든 할당된 tasks 는 자동으로 재시작되고 동일한 스트림 파티션을 계속 소비할 것 입니다.
 
 
-#### 스트림과 토픽의 관계
+### Threading Model
+
+### 스트림과 토픽의 관계
 - 각 스트림 파티션은 토픽 파티션에 저장된 정렬된 메시지
 - 스트림의 데이터 레코드는 카프카 해당 토픽의 메시지 (키 + 값)
 - 데이터 레코드의 키를 통해 다음 스트림으로 전달
