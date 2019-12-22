@@ -64,7 +64,7 @@
 > 더 많은 쓰레드를 띄우거나 인스턴스를 생성하여 효과적으로 병렬처리를 할 수 있음
 
 #### 의미 요소
-[참고](https://docs.confluent.io/3.1.0/streams/concepts.html)
+[Duality of Streams and Table 참고](https://docs.confluent.io/3.1.0/streams/concepts.html#duality-of-streams-and-tables)
 
 - KStream
     - 키/값 쌍의 스트림 추상화, 각 정보는 독립적으로 이벤트와 연결된다.
