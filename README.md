@@ -15,7 +15,7 @@
 - domain: **설정**
 - producer, processor, consumer: **예제**
 
-## What is Kafka Streams?
+## :grey_question: What is Kafka Streams?
 
 > `지속적`으로 `유입`되고 `나가는` 데이터에 대한 분석이나 질의를 수행하는 과정
 > 데이터가 분석 시스템이나 프로그램에 도달하자마자 처리를 하기 때문에 스트림 프로세싱은 실시간 분석이라고 불린다.
@@ -31,7 +31,7 @@
 - 상태 기반 : 이전 스트림을 처리한 결과를 참조하는 경우
 - 무상태 스트림 : 이전 처리와 관계없이 현재 스트림을 기준으로 처리하는 경우
 
-## Kafka Streams Concepts
+## :hammer: Kafka Streams Concepts
 [Kafka Core Concepts 원문](https://kafka.apache.org/24/documentation/streams/core-concepts#streams_topology)
 
 `Kafka Streams` 는 카프카에 `저장된 데이터`를 **처리**하고 **분석**하기 위한 클라이언트 라이브러리이다.
@@ -89,7 +89,7 @@
 
 ### Out-of-Order Handling
 
-## 카프카 스트림 아키텍처
+## :hotel: 카프카 스트림 아키텍처
 [Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
 
 #### 스트림과 토픽의 관계
