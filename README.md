@@ -105,6 +105,7 @@
 
 ## :hotel: Architecture
 [Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
+
 Kafka Streams 는 Kafka producer 와 consumer 라이브러리들 위에서 만들어 지고 병렬 처리, 분산 처리, 내결함성, 단순한 운영을 제공하여
 운영 애플리케이션 개발을 단순화 합니다.
 
