@@ -6,7 +6,7 @@
     3. 단어 집계 
     4. 상품 처리
 
-## 환경 구성
+## :zap: 환경 구성
 
 #### Kafka 2.3.0 버전 설치 및 환경 세팅
 기본 설치 (localhost) (포트: 9092)
@@ -138,9 +138,11 @@ Kafka Streams 는 Kafka producer 와 consumer 라이브러리들 위에서 만�
 
 ### Fault Tolerance
 
-- Kafka Streams 는 기본적으로 Kafka 가 제공하는 내결함성을 기반으로 합니다. (Kafka 파티션은 가용성이 높고 복제가 가능합니다)
-- 
+[참고](https://kafka.apache.org/24/documentation/streams/architecture#streams_architecture_recovery)
 
+- Kafka Streams 는 기본적으로 Kafka 가 제공하는 내결함성을 기반으로 합니다. (Kafka 파티션은 가용성이 높고 복제가 가능합니다)
+- 작업이 실패한 컴퓨터에서 task 를 실행하면 Kafka Streams 는 나머지 실행중인 인스턴스 중 하나에서 작업을 자동으로 다시 시작합니다.
+- local state store 또한 장애를 견딜 수 있습니다. (각 state store 에서 topic 에 대한 복제된 변경로그를 유지 관리합니다.)
 
 ## :heavy_check_mark: 의미 요소
 [Duality of Streams and Table 참고](https://docs.confluent.io/3.1.0/streams/concepts.html#duality-of-streams-and-tables)
