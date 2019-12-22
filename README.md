@@ -8,8 +8,8 @@
 기본 설치 (포트: 9092)
 
 #### 멀티 모듈 구조
-- domain: 설정
-- producer, processor, consumer
+- domain: **설정**
+- producer, processor, consumer: **예제**
 
 ## 카프카 스트림 
 
