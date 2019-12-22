@@ -138,6 +138,8 @@ Kafka Streams 는 Kafka producer 와 consumer 라이브러리들 위에서 만�
 
 ### Fault Tolerance
 
+- Kafka Streams 는 기본적으로 Kafka 가 제공하는 내결함성을 기반으로 합니다. (Kafka 파티션은 가용성이 높고 복제가 가능합니다)
+- 
 
 
 ## :heavy_check_mark: 의미 요소
