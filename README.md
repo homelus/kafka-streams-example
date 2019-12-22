@@ -83,14 +83,29 @@
 - Stream 과 Table 의 밀접한 관계를 의미하는데 stream 은 table 로 보여질 수 있고 table 은 stream 으로 보여질 수 있다.
 
 ### States
+> 스트림 처리에서 상태가 필요하지 않다면, 메시지 처리는 다른 메시지에 독립적이다.
+> 하지만 상태를 유지하는 것은 매력적인 스트림 처리 애플리케이션을 위한 많은 가능성을 열어둘 수 있다.<br>
+> (스트림을 join 한다거나 그룹핑하거나 집계할 수 있다)
 
+- Kafka Streams 는 데이터를 저장하고 질의하기 위한 `상태 저장소(state stores)`를 제공한다.
+- 상태 저장소는 영구적인 키/값 저장소, 매모리 내의 해시 맵 또는 편리한 기타 구조일 수 있다.
+- local state stores 를 통해 강한 내구성과 자동화된 복구 기능을 제공한다.
 
 ### Processing Guarantees
+> 스트림 처리에서 가장 빈번한 질문중 하나는 "이 시스템이 중간에 일부 오류가 발생하더라도 각 데이터가 한번만 처리되도록 보장합니까?" 이다.
+
+- 0.11.0.0 이전 버전에서 최소한 한번의 전달 보장만을 제공하여 그러한 점을 보장하지 못하였다.
+    - 실제로 정확히 한번만 처리한다고 주장하는 경우 복제본이 생성된다고 보장할 수 없었다.
+- 0.11.0.0 배포에서 이러한 문제가 해결되었다. [참고](https://kafka.apache.org/documentation/#semantics)
+- 이를 설정하기 위해 `processing.guarantee` 를 **exactly_once** 로 설정하면 된다.(기본값은 **at_least_once**) 
 
 ### Out-of-Order Handling
+> guarantee 를 제외한 또 다른 이슈는 "예외적인(out of order) 데이터를 어떻게 처리할 것인가" 이다.
+- [내용 참고](https://kafka.apache.org/24/documentation/streams/core-concepts#streams_out_of_ordering)
 
 ## :hotel: Architecture
 [Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
+
 
 #### 스트림과 토픽의 관계
 - 각 스트림 파티션은 토픽 파티션에 저장된 정렬된 메시지
