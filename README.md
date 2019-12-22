@@ -31,7 +31,7 @@
 - 상태 기반 : 이전 스트림을 처리한 결과를 참조하는 경우
 - 무상태 스트림 : 이전 처리와 관계없이 현재 스트림을 기준으로 처리하는 경우
 
-## :hammer: Kafka Streams Concepts
+## :hammer: Core Concepts
 [Kafka Core Concepts 원문](https://kafka.apache.org/24/documentation/streams/core-concepts#streams_topology)
 
 `Kafka Streams` 는 카프카에 `저장된 데이터`를 **처리**하고 **분석**하기 위한 클라이언트 라이브러리이다.
@@ -89,7 +89,7 @@
 
 ### Out-of-Order Handling
 
-## :hotel: 카프카 스트림 아키텍처
+## :hotel: Architecture
 [Architecture 참고](https://kafka.apache.org/24/documentation/streams/architecture)
 
 #### 스트림과 토픽의 관계
